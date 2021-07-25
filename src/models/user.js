@@ -1,6 +1,7 @@
 //IMPORT LIBRARIES
 const mongoose = require('mongoose');
 const validator = require('validator');
+const bcrypt = require('bcrypt');
 
 //CREATE A USER SCHEMA
 const userSchema = new mongoose.Schema({
@@ -15,6 +16,7 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
+        unique: true,
         trim: true,
         lowercase: true,
         validate: function(value){
@@ -37,23 +39,28 @@ const userSchema = new mongoose.Schema({
     }
 })
 
+//DEFINE CUSTOM STATIC USER DEFINED METHOD ON THE SCHEMA
+userSchema.statics.findByCredentials = async (email,password) => {
+    const user = await User.findOne({email});
+    if(!user){
+        throw new Error("Unable to login1");
+    }
+    const isMatch = await bcrypt.compare(password,user.password);
+    console.log(isMatch);
+    if(!isMatch){
+        throw new Error("Unable to login2");
+    }
+    console.log("Login successful")
+    return user;
+}
+
 //CALL MIDDLEWARE FUNCTIONS BEFORE CREATING THE MODEL
 userSchema.pre('save', async function(next){
     const user = this;
-    console.log("Just before saving");
-
-
-    /* const bcrypt = require("bcrypt");
-
-const encryptPassword = async function(password){
-    const encryptedPassword = await bcrypt.hash(password,8);
-
-    console.log(encryptedPassword)
-    const match = await bcrypt.compare("Sahil9102",encryptedPassword);
-    console.log(match)
-}
-
-encryptPassword("Sahil9102") */
+    
+    if(user.isModified('password')){
+        user.password = await bcrypt.hash(user.password,8);
+    }
 
     next();
 });

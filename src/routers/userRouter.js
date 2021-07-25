@@ -17,6 +17,17 @@ router.post("/users", async (req,res)=>{
 
 })
 
+//Login an existing user
+router.post("/users/login", async (req,res)=>{
+    try{
+        //Calling a custom static user defined method findByCredentials
+        const user = await User.findByCredentials(req.body.email,req.body.password);
+        res.send(user)
+    }catch(err){
+        res.status(400).send(err.message);
+    }
+})
+
 //Fetch all users
 router.get("/users",async (req,res)=>{
     const users = await User.find({});

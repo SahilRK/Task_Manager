@@ -2,8 +2,8 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 
-//CREATE A TASK MODEL
-const Task = mongoose.model("Task",{
+//CREATE A TASK SCHEMA
+const taskSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -22,6 +22,16 @@ const Task = mongoose.model("Task",{
         type: Boolean,
         default: false
     }
+});
+
+//CALL MIDDLEWARE FUNCTIONS BEFORE CREATING THE MODEL
+taskSchema.pre('save', async function(next){
+    const task = this;
+    console.log("Called pre hook before creating model")
+    next();
 })
+
+//CREATE A TASK MODEL
+const Task = mongoose.model("Task",taskSchema);
 
 module.exports = Task;
