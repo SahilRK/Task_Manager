@@ -1,0 +1,5 @@
+1) Arrow vs Regular functions: https://medium.com/tfogo/advantages-and-pitfalls-of-arrow-functions-a16f0835799e
+2) These NPM tricks will make you a pro: https://www.freecodecamp.org/news/10-npm-tricks-that-will-make-you-a-pro-a945982afb25/
+3) Why always use a return statement in an block while sending a response back to the user when there are multiple res data to be sent: https://www.codementor.io/@oparaprosper79/understanding-node-error-err_http_headers_sent-117mpk82z8
+4) Why percent in the URL crashes app: https://stackoverflow.com/questions/51786690/express-urierror-failed-to-decode-param?noredirect=1&lq=1
+5) About package.json: https://medium.com/coinmonks/everything-you-wanted-to-know-about-package-lock-json-b81911aa8ab8
